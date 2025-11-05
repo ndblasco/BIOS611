@@ -1,0 +1,25 @@
+# ------------------------
+# R / RStudio
+# ------------------------
+
+# History files
+.Rhistory
+.Rapp.history
+
+# Session data
+.RData
+.Ruserdata
+
+# RStudio files
+.Rproj.user/
+.Rproj.user
+
+# Temporary files
+*.RDataTmp
+*.Rhistory
+
+# ------------------------
+# Generated Data
+# ------------------------
+
+data/

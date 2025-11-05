@@ -1,9 +1,14 @@
-FROM rocker/rstudio
+FROM rocker/verse:latest
 
-# Update and install packages for man pages
-RUN apt update && \
-    apt install -y yes man-db && \
-    rm -rf /var/lib/apt/lists/*
+RUN Rscript -e "install.packages(c('tidyverse', 'git2r'), repos='https://cloud.r-project.org')"
 
-# Restore full documentation support
-RUN yes | unminimize
+# Set working directory
+WORKDIR /bios611-project
+
+# Copy everything from your local folder into the container
+COPY . /bios611-project
+
+# Default command: run your Makefile
+CMD ["make"]
+
+
