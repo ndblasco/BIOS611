@@ -35,5 +35,4 @@ season_data <- lapply(year_dirs, read_season_files) |>
   compact() |>
   bind_rows()
 
-# Write to CSV
 write_csv(season_data, "data/df.csv")
