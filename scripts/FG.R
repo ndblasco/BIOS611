@@ -16,7 +16,7 @@ FG_Percentage <- analysisdf |>
     `20-29` = `FgMade_20-29` / (`FgMade_20-29` + `FgMiss_20-29`),
     `30-39` = `FgMade_30-39` / (`FgMade_30-39` + `FgMiss_30-39`)
   ) |>
-  select(year, `0-19`, `20-29`, `30-39`) |>
+  dplyr::select(year, `0-19`, `20-29`, `30-39`) |>
   pivot_longer(
     cols = c(`0-19`, `20-29`, `30-39`),
     names_to = "Range",
