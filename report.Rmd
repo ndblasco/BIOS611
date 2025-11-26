@@ -17,113 +17,83 @@ source("scripts/data_preprocessing.R")
 
 # Data Summary
 
-This dataset contains NFL season stats for 3,172 unique players. The players represent all 32 NFL teams. The data spans from 2015 through the most recent full season, 2024. It includes defensive back, defensive linemen, kickers, linebackers, quarterbacks, running backs, tight ends, and wide receivers. Not all stats are applicable to every player, explaining the missing values seen in the data. For example, a quarterback will have missing values for all field goal related stats. Some players may also have missing data if they did not achieve that stat, often explained by minimal playing time. The variables in the dataset are:
+This dataset contains NFL season stats and fantasy football data for 3,172 unique players. The players represent all 32 NFL teams. The data spans from 2015 through the most recent full season, 2024. It includes defensive backs, defensive linemen, kickers, linebackers, quarterbacks, running backs, tight ends, and wide receivers. Not all statistics are applicable to every player, explaining the bulk of the missing values seen in the data. For example, a quarterback will have missing values for all field goal related stats. Some players may also have missing data if they did not achieve that stat, often explained by minimal playing time. The variables in the dataset are:
 
-Player Information
+*Player Information*
 
--   PlayerName : Player First and Last Name
--   PlayerId: Unique Player ID from the fantasy provider
--   Pos: Player Position
--   Team: Player's Team Abbreviation at time of stat
--   Rank: Fantasy rank by position
--   TotalPoints: Total Fantasy points
+-   PlayerName: Player first and last name
+-   PlayerId: Unique player ID
+-   Pos: Player position
+-   Team: Player's team abbreviation at the time of  the stat
+-   Rank: Fantasy rank by position per season
+-   TotalPoints: Total fantasy points
 -   year: Season year
 
-Defensive Stats
+*Defensive Stats*
+Includes total tackles, assisted tackles, sacks, tackles for loss, interceptions, forced fumbles, fumble recoveries, defensive touchdowns, blocked kicks, passes defended, quarterback hits, interception and fumble return yards, and other defensive scoring events.
 
--   TacklesTot: Total Combined Tackles
--   TacklesAst: Assisted Tackles
--   TacklesSck: Sacks
--   TacklesTfl: Tackles for Loss
--   TurnoverInt: Interception
--   TurnoverFrcFum: Forced Fumbles
--   TurnoverFumRec: Fumble Recoveries
--   ScoreIntTd: Interception Returned for a TD (Pick-6)
--   ScoreFumTd: Fumble Returned for a TD
--   ScoreBlkTd: Blcoked punt/FG Returned for a TD
--   ScoreSaf: Safety Scored by the Defense
--   ScoreDef2ptRet: Defensive 2 Point Conversion Returned for a TD
--   Blk: Blocked kick (FG/PAT/Punt)
--   PDef: Passes Defended
--   QBHit: Quarterback Hits
--   ReturnIntYds: Interception Return Yards
--   ReturnFumYds: Fumble Return Yards
+*Kicker Stats*
 
-Kicker Stats
+Includes extra points made/missed and field goals made/missed by distance ranges (0–19, 20–29, 30–39, 40–49, 50+ yards).
 
--   PatMade: PATs (extra points) made
--   PatMissed: PATs missed
--   FgMade_0-19: Field goals made from 0-19 yards
--   FgMade_20-29: Field goals made from 20-29 yards
--   FgMade_30-39: Field goals made from 30-39 yards
--   FgMade_40-49: Field goals made from 40-49 yards
--   FgMade_50: Field goals made from 50+ yards
--   FgMiss_0-19: Field goals missed from 0-19 yards
--   FgMiss_20-29: Field goals missed from 20-29 yards
--   FgMiss_30-39: Field goals missed from 30-39 yards
+*Quarterback Stats*
 
-Quarterback Stats:
+Includes passing yards, passing touchdowns, and interceptions thrown.
 
--   PassingYDS: Passing yards
--   PassingTD: Passing touchdowns
--   PassingInt: Interceptions Thrown
+*Offensive Stats*
 
-Offensive Stats
-
--   RushingYDS: Rushing yards
-
--   RushingTD: Rushing touchdowns
-
--   ReceivingRec: Receptions
-
--   ReceivingYDS: Receiving yards
-
--   ReceivingTD: Receiving touchdowns
-
--   RetTD: Kick/Punt return touchdowns
-
--   FumTD: Offensive Fumble recovery TD
-
--   2PT: 2 point conversions
-
--   Fum: Fumbles
-
--   FanPtsAgainst-pts: Fantasy Points allowed by the player's defense
-
--   TouchCarries: Carries contributing to total touches
-
--   TouchReceptions: Receptions contributing to total touches
-
--   Touches: Total opportunities (carries+receptions)
-
--   TargetsReceptions:
-
--   Targets:
-
--   ReceptionPercentage: Receptions/Targets
-
--   RzTarget: Red Zone targets
-
--   RzTouch: Red Zone touches
-
--   RzG2G: Red Zone goal-to-go touches (inside the 10)
+Includes rushing yards and touchdowns, receptions, receiving yards and touchdowns, total touches, targets, red-zone touches, fumbles, two-point conversions, and fantasy points allowed (for defensive scoring).
 
 # Data Pre-Processing
 
 The team value "FA" which refers to free agents was removed for analysis, so only players on a team during the season were included. The team values "LA" and "LAR" were combined. LA was used to refer to the Rams until 2023 and then LAR was used in 2023 and 2024. Now, all seasons of the LA Rams are coded as "LAR". Data from the 2025 season was removed as it is incomplete due to the season being in progress.
 
-# Kicker Stats
+# Exploratory Analysis
+
+## Kicker Performance
 
 ```{r}
 source("scripts/PAT.R")
 knitr::include_graphics("figures/PAT_Percentage.png")
 ```
 
-Extra-point percentage in the NFL has increased over time, which is expected as the sport gets more competitive and training becomes more intense. There was a dip in 2020, potentially explained by the COVID-19 pandemic. Some players opted out of the 2020 season and most stadiums did not allow fans or did with limited capacity. The different conditions may have impacted kicker's accuracy, but the drop is only about 2 percentage points so may not represent a meaningful difference that season.
+Extra-point accuracy in the NFL has generally increased over time, reflecting improved training and competition. There was a slight dip in 2020, likely explained by the COVID-19 pandemic. Some players opted out of the 2020 season and most stadiums did not allow fans or did with limited capacity. The different conditions may have impacted kicker's accuracy, but the drop is only about 2 percentage points so may not represent a meaningful difference that season.
 
 ```{r}
 source("scripts/FG.R")
 knitr::include_graphics("figures/FG_Percentage.png")
 ```
 
-NFL kicker's consistently made 100% of field goals from 0-19 yards over time. From 20-29 yards, the percentage fluctuates around 98% accuracy. We see much greater variability in accuracy from 30-39 yards, dropping as low as about 88% in 2017. These trajectories make sense because the greater the distance, the harder it is to make a field goal.
+Field goal accuracy shows expected patterns. NFL kicker's consistently made 100% of field goals from 0-19 yards over time. From 20-29 yards, the percentage fluctuates around 98% accuracy. We see much greater variability in accuracy from 30-39 yards, dropping as low as about 88% in 2017, highlighting the difficulty of longer kicks. 
+
+# Classification Model for Offensive Players
+
+The goal of this next analysis was to classify offensive NFL skill players as wide receivers (WR) or Running Backs (RB) based on rushing, receiving, and red-zone statistics.
+
+Variables considered for the model: RushingYDS, RushingTD, TouchCarries, ReceivingRec, ReceivingYDS, ReceivingTD, Targets, ReceptionPercentage, TouchReceptions, RzTarget, RzTouch, RzG2G, Fum, FumTD
+
+The data was split into training (70%) and test sets (30%). A logistic regression model was fit to the training data. Stepwise selection based on AIC was used to identify the most informative predictors. Variables were added or removed based on whether they improved model AIC. The final model included RushingTD, TouchCarries, ReceivingRec, ReceivingYDS, Targets, TouchReceptions, RzTouch, and Fum. 
+
+```{r, results='hide'}
+source("scripts/offense_classification.R")
+```
+
+```{r}
+knitr::include_graphics("figures/confusion_matrix.png")
+```
+
+The model correctly classified the majority of players. It performed better at identifying WRs, misclassifying 1% of actual WRs, while 55% of actual RBs were misclassified. The overall accuracy was 78%.
+
+```{r}
+knitr::include_graphics("figures/ROC.png")
+```
+
+The ROC curve illustrates the trade-off between sensitivity and specificity. The area under the curve is 0.834, which indicates solid classification performance.
+
+Touch carries and targets were the most informative features for distinguishing RBs from WRs. RBs typically have more carries and rushing touchdowns while WRs have higher targets, receiving yards, and receptions.
+
+# Conclusions and Future Directions
+
+Logistic regression effectively distinguished WRs from RBs but misclassification of RBs indicates additional predictive features may be needed. 
+
+Future analyses could include: multi-class classification for WR vs RB vs TE, predicting fantasy points or fantasy rank, or including defensive and kicker stats for broader performance modeling. 
