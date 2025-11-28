@@ -19,7 +19,13 @@
 *.Rhistory
 
 # ------------------------
-# Generated Data
+# Generated Data/Files
 # ------------------------
 
 data/
+
+# ------------------------
+# Scratch Files
+# ------------------------
+
+data_exploration.R
