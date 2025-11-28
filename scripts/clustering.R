@@ -2,6 +2,8 @@ library(tidyverse)
 library(kableExtra)
 library(plotly)
 
+analysisdf <- read_csv("data/analysis_df.csv")
+
 offense <- analysisdf |>
   filter(Pos %in% c("RB", "WR", "TE")) 
 

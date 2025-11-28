@@ -1,4 +1,5 @@
 library(tidyverse)
+analysisdf <- read_csv("data/analysis_df.csv")
 
 points_position <- analysisdf |>
   filter(TotalPoints != 0)|>

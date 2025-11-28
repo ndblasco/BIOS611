@@ -1,4 +1,5 @@
 library(tidyverse)
+analysisdf <- read_csv("data/analysis_df.csv")
 
 FG_Percentage <- analysisdf |>
   filter(Pos == "K") |>

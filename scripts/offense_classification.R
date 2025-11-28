@@ -5,6 +5,8 @@ library(MASS)
 library(gt)
 library(kableExtra)
 
+analysisdf <- read_csv("data/analysis_df.csv")
+
 classdf <- analysisdf %>%
   filter(Pos %in% c("RB", "WR")) %>%
   dplyr::select(
