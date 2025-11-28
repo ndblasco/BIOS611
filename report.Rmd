@@ -9,7 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = FALSE, message=FALSE, warning=FALSE)
 ```
 
-```{r}
+```{r create and filter data}
 source("scripts/create_dataset.R")
 source("scripts/data_preprocessing.R")
 ```
@@ -56,7 +56,7 @@ Data from the 2025 season was removed as it is incomplete due to the season bein
 
 To begin exploring the dataset, I examined the distribution of fantasy points by position. Because this dataset spans 10 seasons (2015-2024), some players appear multiple times, but each observation represents one complete season of performance.
 
-```{r}
+```{r points by position}
 source("scripts/points_position.R")
 knitr::include_graphics("figures/FantasyPoints_Position.png")
 ```
@@ -73,7 +73,7 @@ To explore how offensive environments differ across NFL franchises, I calculated
 
 Each team contributed roughly 100–150 offensive player-seasons across the 10-year span, which aligns with expectations based on typical roster structures and yearly personnel turnover. This consistency indicates that the dataset was cleaned successfully and supports valid team-to-team comparisons.
 
-```{r}
+```{r points by team}
 source("scripts/points_team.R")
 knitr::include_graphics("figures/points_team.png")
 ```
@@ -86,7 +86,7 @@ Overall, this analysis demonstrates that both team offensive quality and the dis
 
 Next, I looked at how kickers have evolved in the NFL since 2015 by evaluating their extra-point accuracy over time. 
 
-```{r}
+```{r kicker PAT}
 source("scripts/PAT.R")
 knitr::include_graphics("figures/PAT_Percentage.png")
 ```
@@ -94,7 +94,7 @@ knitr::include_graphics("figures/PAT_Percentage.png")
 Extra-point accuracy has generally increased over time, reflecting improved training and competition. There was a slight dip in 2020, potentially explained by the COVID-19 pandemic. Some players opted out of the 2020 season and most stadiums did not allow fans or did with limited capacity. The different conditions may have impacted kicker's accuracy, but the drop is only about 2 percentage points so may not represent a meaningful difference that season.
 
 I also looked at kicker's field goal accuracy over time aross distances. 
-```{r}
+```{r kicker FG}
 source("scripts/FG.R")
 knitr::include_graphics("figures/FG_Percentage.png")
 ```
@@ -109,17 +109,17 @@ Variables considered for the model: RushingYDS, RushingTD, TouchCarries, Receivi
 
 The data was split into training (70%) and test sets (30%). A logistic regression model was fit to the training data. Stepwise selection based on AIC was used to identify the most informative predictors. Variables were added or removed based on whether they improved model AIC. The final model included RushingTD, TouchCarries, ReceivingRec, ReceivingYDS, Targets, TouchReceptions, RzTouch, and Fum.
 
-```{r, results='hide'}
+```{r offense classification, results='hide'}
 source("scripts/offense_classification.R")
 ```
 
-```{r}
-knitr::include_graphics("figures/confusion_matrix.png")
+```{r confusion matrix}
+conf_gt
 ```
 
 The model correctly classified the majority of players. It performed better at identifying WRs, misclassifying 1% of actual WRs, while 55% of actual RBs were misclassified. The overall accuracy was 78%.
 
-```{r}
+```{r ROC}
 knitr::include_graphics("figures/ROC.png")
 ```
 
@@ -143,12 +143,11 @@ All numeric features were standardized prior to clustering to account for differ
 
 I selected 5 clusters to balance interpretability with granularity, capturing distinct usage patterns among skill-position players. The resulting cluster centroids reveal clear archetypes:
 
-```{r}
+```{r clustering}
 source("scripts/clustering.R")
 ```
 
-```{r}
-knitr::include_graphics("figures/cluster_plot.png")
+```{r cluster summary}
 kable(cluster_summary, digits = 2, caption = "Average Stats by Offensive Player Cluster")
 ```
 

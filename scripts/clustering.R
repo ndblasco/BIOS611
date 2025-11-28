@@ -1,5 +1,6 @@
 library(tidyverse)
 library(kableExtra)
+library(plotly)
 
 offense <- analysisdf |>
   filter(Pos %in% c("RB", "WR", "TE")) 
@@ -13,23 +14,40 @@ cluster_features <- offense |>
 cluster_scaled <- scale(cluster_features)
 
 set.seed(54321) 
-kmeans_result <- kmeans(cluster_scaled, centers = 5, nstart = 25)
+kmeans_result <- kmeans(cluster_scaled, centers = 4, nstart = 25)
 offense$Cluster <- factor(kmeans_result$cluster)
 
 pca_res <- prcomp(cluster_scaled)
 pca_df <- data.frame(PC1 = pca_res$x[,1],
                      PC2 = pca_res$x[,2],
                      Cluster = offense$Cluster,
-                     Pos = offense$Pos)
+                     Pos = offense$Pos,
+                     PlayerName = offense$PlayerName,
+                     Year = offense$year)
 
-cluster_plot <- ggplot(pca_df, aes(x = PC1, y = PC2, color = Cluster, shape = Pos)) +
-  geom_point(alpha = 0.7, size = 2) +
-  theme_minimal() +
-  labs(title = "K-means Clusters of Offensive Players",
-       subtitle = "PCA projection of skill player stats",
-       x = "PC1", y = "PC2")
+plot_ly(
+  pca_df,
+  x = ~PC1,
+  y = ~PC2,
+  color = ~Cluster,
+  symbol = ~Pos,
+  mode = "markers",
+  type = "scatter",
+  text = ~paste(
+    "Player:", PlayerName,
+    "<br>Year:", Year,
+    "<br>Cluster:", Cluster,
+    "<br>Pos:", Pos
+  ),
+  hoverinfo = "text",
+  marker = list(size = 8, opacity = 0.7)
+) %>%
+  layout(
+    title = "K-means Clusters of Offensive Players (Interactive)",
+    xaxis = list(title = "PC1"),
+    yaxis = list(title = "PC2")
+  )
 
-ggsave("figures/cluster_plot.png", cluster_plot, width = 8, height = 6)
 
 cluster_summary <- offense |>
   group_by(Cluster) |>
