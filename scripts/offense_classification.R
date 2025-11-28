@@ -59,7 +59,6 @@ conf_gt <- as.data.frame.matrix(conf_matrix) %>%
     locations = cells_title(groups = "title")
   )
 
-gtsave(conf_gt, filename = "figures/confusion_matrix.png")
 
 png("figures/ROC.png", width = 1200, height = 800)
 roc_obj <- roc(response = test$Pos, predictor = pred_probs, levels = c("WR","RB"))
