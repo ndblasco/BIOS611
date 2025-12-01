@@ -24,6 +24,8 @@
 
 data/
 report.html
+figures/cluster_plot_files/
+figures/cluster_plot.html
 
 # ------------------------
 # Scratch Files
