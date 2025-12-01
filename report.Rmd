@@ -141,7 +141,7 @@ Miscellaneous: Fumbles and fumble touchdowns
 
 All numeric features were standardized prior to clustering to account for differences in scale.
 
-I selected 5 clusters to balance interpretability with granularity, capturing distinct usage patterns among skill-position players. The resulting cluster centroids reveal clear archetypes:
+I selected 4 clusters to balance interpretability with granularity, capturing distinct usage patterns among skill-position players. The resulting cluster centroids reveal clear archetypes:
 
 ```{r clustering}
 source("scripts/clustering.R")
@@ -154,19 +154,16 @@ kable(cluster_summary, digits = 2, caption = "Average Stats by Offensive Player 
 #### Cluster 1: Workhorse Running Backs
 Players in this cluster exhibit high rushing yards, touchdowns, and touch volume, as well as significant red-zone involvement. Some receiving contribution is present, but rushing dominates. These are typically the feature RBs on their team who handle a heavy workload.
 
-#### Cluster 2: Versatile or Medium-Usage Running Backs
-This cluster includes players with moderate rushing stats and red-zone usage but below-average receiving production. These are often part-time or rotational RBs who contribute in both short-yardage and occasional feature roles.
+#### Cluster 2:  Depth/Low-Usage Players 
+Players in this cluster are below average across all features, indicating minimal involvement in either rushing or receiving. These are typically backups, rotational players, or situational contributors.
 
-#### Cluster 3: Situational or Rotational Players 
+#### Cluster 3: Situational or Medium-Usage Players 
 Cluster 3 players have near-average or slightly above-average receiving metrics but minimal rushing involvement and low red-zone usage. These are likely role players, backups, or situational specialists.
 
 #### Cluster 4: Pass-Catching Wide Receivers and Tight Ends 
 Players in Cluster 4 are characterized by high receptions, receiving yards, touchdowns, and targets. Red-zone target involvement is above average, while rushing contribution is minimal. These are the primary passing-game weapons for their teams.
 
-#### Cluster 5: Depth/Low-Usage Players 
-Players in this cluster are below average across all features, indicating minimal involvement in either rushing or receiving. These are typically backups, rotational players, or situational contributors.
-
-The clustering results align closely with expected positional roles. RBs split naturally into high-usage (Cluster 1) and moderate-usage (Cluster 2) players. WRs and TEs primarily fall into Cluster 4, reflecting their receiving-focused roles. Clusters 3 and 5 capture depth players and situational contributors across positions. These archetypes provide a useful framework for fantasy football strategy, allowing identification of players with consistent high-volume usage versus those with specialized or limited roles.
+The clustering results align closely with expected positional roles. RBs split naturally into high-usage (Cluster 1) and situational/moderate-usage (Cluster 3) players. WRs and TEs primarily fall into Cluster 4, reflecting their receiving-focused roles. Cluster 2 captures depth players and situational contributors across positions. These archetypes provide a useful framework for fantasy football strategy, allowing identification of players with consistent high-volume usage versus those with specialized or limited roles.
 
 # Conclusions and Future Directions
 
@@ -181,10 +178,9 @@ This analysis provides a comprehensive view of NFL offensive player performance 
 4.  Clustering and Player Archetypes: K-means clustering of offensive skill players revealed five distinct archetypes:
 
 - Workhorse RBs with high rushing volume and red-zone involvement. 
-- Versatile or medium-usage RBs with moderate contributions in both rushing and receiving. 
-- Situational or rotational players with limited touches, primarily involved in specific roles. 
-- Pass-catching WRs and TEs with high receptions, yards, and red-zone target involvement. 
 - Depth or low-usage players with minimal involvement across all metrics. 
+- Situational or medium-usage players with limited touches, primarily involved in specific roles. 
+- Pass-catching WRs and TEs with high receptions, yards, and red-zone target involvement. 
 
 These clusters align closely with expected positional roles, providing a meaningful framework for evaluating player usage, projecting fantasy performance, and identifying consistent contributors versus situational specialists.
 
