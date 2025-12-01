@@ -147,6 +147,11 @@ I selected 4 clusters to balance interpretability with granularity, capturing di
 source("scripts/clustering.R")
 ```
 
+```{r cluster plot}
+cluster_plot
+```
+
+
 ```{r cluster summary}
 kable(cluster_summary, digits = 2, caption = "Average Stats by Offensive Player Cluster")
 ```

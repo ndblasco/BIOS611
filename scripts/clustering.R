@@ -27,7 +27,7 @@ pca_df <- data.frame(PC1 = pca_res$x[,1],
                      PlayerName = offense$PlayerName,
                      Year = offense$year)
 
-plot_ly(
+cluster_plot <- plot_ly(
   pca_df,
   x = ~PC1,
   y = ~PC2,
@@ -50,6 +50,7 @@ plot_ly(
     yaxis = list(title = "PC2")
   )
 
+htmlwidgets::saveWidget(cluster_plot, "figures/cluster_plot.html")
 
 cluster_summary <- offense |>
   group_by(Cluster) |>
